@@ -1,13 +1,14 @@
 const express = require('express');
 require('dotenv').config();
-require('./connection/db-connection');
+require('./data_source/db-connection');
+const routes = require('./routes/languageRouter');
 const app = express();
 
 app.use(express.json());
 
 
 
-//app.use('/');
+app.use('/api', routes);
 
 
 app.listen(process.env.PORT, function(){
