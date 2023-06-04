@@ -10,10 +10,16 @@ module.exports.addOne = (req, res) =>{
     };
     Language.create(newLanguage, function(err, language){
         if(err){
-            res.status(500).send('error while adding new language' + err)
+            res.status(500).send({
+                success: false,
+                message: `error while adding new language, Error: ${err}`
+            });
         }
         else {
-            res.status(200).send(language);
+            res.status(200).send({
+                success: true,
+                response : language
+            });
         }
     });
 }
@@ -34,9 +40,15 @@ module.exports.update = (req, res) =>{
         { new: true },
         function(err, language){
         if(err){
-            res.status(500).send('Error while updating language: ' + err);
+            res.status(500).send({
+                success: false,
+                message: `Error while updating language, Error: ${err}`
+            });
         } else {
-            res.status(200).send(language);
+            res.status(200).send({
+                success: true,
+                response: language
+            });
         }
     });
 }
@@ -44,11 +56,17 @@ module.exports.update = (req, res) =>{
 
 module.exports.getByName = (req, res) =>{
     const languageName = req.params.languageName;
-    Language.findOne({name: languageName}).exec(function(err, languages){
+    Language.findOne({name: languageName}).exec(function(err, language){
         if(err){
-            res.status(500).send(`error while getting language ${languageName}`, err)
+            res.status(500).send({
+                success: false,
+                message: `error while getting language ${languageName}, Error: ${err}`
+            });
         }
-        res.status(200).send(languages);
+        res.status(200).send({
+            success: true,
+            response: language
+        });
     });
 }
 
@@ -56,9 +74,15 @@ module.exports.getByName = (req, res) =>{
 module.exports.getAll = (req, res) =>{
     Language.find().exec(function(err, languages){
         if(err){
-            res.status(500).send('error while getting list of languages', err)
+            res.status(500).send({
+                success: false,
+                message: `error while getting list of languages, Error: ${err}`
+            });
         }
-        res.status(200).send(languages);
+        res.status(200).send({
+            success: true,
+            response: languages
+        });
     });
 }
 
@@ -67,8 +91,14 @@ module.exports.delete = (req, res) =>{
     const languageName = req.params.languageName;
     Language.deleteOne({name: languageName}).exec(function(err, acknowledged){
         if(err){
-            res.status(500).send(`error while deleting language ${languageName}`, err)
+            res.status(500).send({
+                success: false,
+                response: `error while deleting language ${languageName}, Error: ${err}`
+            });
         }
-        res.status(200).send({message: acknowledged});
+        res.status(200).send({
+            success: true,
+            message: acknowledged
+        });
     });
 }

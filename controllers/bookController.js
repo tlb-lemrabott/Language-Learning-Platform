@@ -10,14 +10,23 @@ module.exports.addOne = (req, res) =>{
         { name: languageName }, 
         function(err, language){
         if(err){
-            res.status(500).send('Error while finding language: ' + err);
+            res.status(500).send({
+                success: false,
+                response: `Error while finding language, Error: ${err}`
+            });
         } else {
             language.books.push(newBook);
             language.save(function(err, updatedLanguage){
                 if(err){
-                    res.status(500).send('Error while adding new book: ' + err);
+                    res.status(500).send({
+                        success: false,
+                        response:`Error while adding new book, Error: ${err}`
+                    });
                 } else {
-                    res.status(200).send(updatedLanguage);
+                    res.status(200).send({
+                        success: true,
+                        response: updatedLanguage
+                    });
                 }
             });
         }
@@ -35,9 +44,15 @@ module.exports.update = (req, res) =>{
         { new: true },
         function(err, language){
             if(err){
-                res.status(500).send('Error while updating book: ' + err);
+                res.status(500).send({
+                    success: false,
+                    response: `Error while updating the book ${bookName}, Error: ${err}`
+                });
             } else {
-                res.status(200).send(language);
+                res.status(200).send({
+                    success: true,
+                    response: language
+                });
             }
         }
     );
@@ -49,10 +64,16 @@ module.exports.getByName = (req, res) =>{
 
     Language.findOne({ name: languageName, 'books.title': bookName }, function(err, language){
         if(err){
-            res.status(500).send('Error while finding book: ' + err);
+            res.status(500).send({
+                success: false,
+                message: `Error while finding the book : ${bookName}, Error ${err}`
+            });
         } else {
             const book = language.books.find((book) => book.title === bookName);
-            res.status(200).send(book);
+            res.status(200).send({
+                success: true,
+                response: book
+            });
         }
     });
 }
@@ -62,9 +83,15 @@ module.exports.getAll = (req, res) =>{
 
     Language.findOne({ name: languageName }, function(err, language){
         if(err){
-            res.status(500).send('Error while finding language: ' + err);
+            res.status(500).send({
+                success: false,
+                message: `Error while finding books in language ${languageName}, Error: ${err}`
+            });
         } else {
-            res.status(200).send(language.books);
+            res.status(200).send({
+                success: true,
+                response: language.books
+            });
         }
     });
 }
@@ -81,9 +108,15 @@ module.exports.delete = (req, res) =>{
         { new: true },
         function(err, language){
             if(err){
-                res.status(500).send(`Error happened while deleting the book ${bookName}` + err);
+                res.status(500).send({
+                    success: false,
+                    message: `Error happened while deleting the book ${bookName}, Error: ${err}`
+                });
             } else {
-                res.status(200).send(language);
+                res.status(200).send({
+                    success: true,
+                    response: language
+                });
             }
         }
     );
