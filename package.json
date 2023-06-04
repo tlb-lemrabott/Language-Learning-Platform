@@ -1,0 +1,26 @@
+{
+    "name": "php_project",
+    "version": "1.0.0",
+    "description": "The Language Learning Platform is a web-based application developed as part of my PHP project for MWA course. The platform aims to provide a comprehensive resource for individuals interested in learning new languages. It offers a curated collection of books for each language, along with ratings and feedback from users.",
+    "main": "app.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "start": "nodemon app.js"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/tlb-lemrabott/Language-Learning-Platform.git"
+    },
+    "author": "Lemrabott",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/tlb-lemrabott/Language-Learning-Platform/issues"
+    },
+    "homepage": "https://github.com/tlb-lemrabott/Language-Learning-Platform#readme",
+    "dependencies": {
+      "express": "^4.18.2",
+      "mongoose": "^7.2.2",
+      "nodemon": "^2.0.22"
+    }
+  }
+  
