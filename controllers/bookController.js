@@ -115,7 +115,7 @@ module.exports.delete = (req, res) =>{
             } else {
                 res.status(200).send({
                     success: true,
-                    response: `book with name ${bookName} deleted successfully from language ${languageName}`
+                    response: `book with name "${bookName}" deleted successfully from language "${languageName}"`
                 });
             }
         }
