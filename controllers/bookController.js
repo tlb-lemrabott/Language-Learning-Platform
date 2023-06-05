@@ -106,7 +106,7 @@ module.exports.delete = (req, res) =>{
         { name: languageName, 'books.title': bookName },
         { $pull: { books: { title : bookName } } },
         { new: true },
-        function(err, language){
+        function(err, result){
             if(err){
                 res.status(500).send({
                     success: false,
@@ -115,7 +115,7 @@ module.exports.delete = (req, res) =>{
             } else {
                 res.status(200).send({
                     success: true,
-                    response: language
+                    response: `book with name ${bookName} deleted successfully from language ${languageName}`
                 });
             }
         }
