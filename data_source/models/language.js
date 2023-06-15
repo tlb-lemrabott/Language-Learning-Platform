@@ -1,11 +1,9 @@
 const mongoose = require('mongoose');
-//const bookSchema = require('./book');
 
 const bookSchema = new mongoose.Schema({
     title: {
         type: String,
-        required: true,
-        unique: true
+        required: [true, "book title is required!"]
     },
     author: {
         type: String,
@@ -17,15 +15,14 @@ const bookSchema = new mongoose.Schema({
     }
 });
 
-const languageShema = new mongoose.Schema({
+const languageSchema = new mongoose.Schema({
     name: {
-        type: String,
-        required: true,
-        unique: true
+      type: String,
+      required: [true, "name is required!"],
+      unique: [true, "Duplicate name not allowed!"]
     },
     countries: [String],
     books: [bookSchema]
-});
+  });
 
-mongoose.model("Language", languageShema, "languages");
-// mongoose.model("Book", bookSchema, "books");
+mongoose.model("Language", languageSchema, "languages");
