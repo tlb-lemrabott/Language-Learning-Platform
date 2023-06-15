@@ -20,14 +20,15 @@ exports._validateLanguage = function (docSchema, language) {
         lang.validate()
             .then(() => resolve(lang))
             .catch((error) => {
-                if (error.name === 'ValidationError') {
+                console.log("1", error);
+                if (error.name === process.env.MONGOOSE_INPUT_VALIDATION_ERROR) {
                     const errorMessage = error.errors.name.message;
                     reject(errorMessage);
-                } else if (error.name === 'MongoError' && error.code === 11000) {
-                    const duplicateErrorMessage = 'Duplicate language name is not allowed.';
+                } else if (error.name === process.env.MONGO_ERR && error.code === parseInt(process.env.MONGO_ERROR_CODE, process.env.BASE_TEN)) {
+                    const duplicateErrorMessage = process.env.MONGOOSE_DUPLICATE_ERROR_MSG;
                     reject(duplicateErrorMessage);
                 } else {
-                    reject('An error occurred during language validation.');
+                    reject(process.env.MONGODB_VALIDATION_ERROR);
                 }
             });
     });
