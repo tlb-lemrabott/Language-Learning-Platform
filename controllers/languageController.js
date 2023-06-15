@@ -15,7 +15,6 @@ exports.addOne = (req, res) => {
         .finally(() => util._sendReponse(res))
 };
 
-
 exports.fullUpdate = function (req, res) {
     const languageId = req.params.languageId;
     const newLanguage = req.body;
@@ -29,83 +28,55 @@ exports.partialUpdate = function (req, res) {
     const languageId = req.params.languageId;
     const newLanguage = req.body;
     Language.findByIdAndUpdate(languageId, newLanguage, { new: true })
-    .then((updatedLanguage) => util._setReponse(parseInt(process.env.REST_API_OK, process.env.BASE_TEN), updatedLanguage))
-    .catch((err) => util._setReponse(parseInt(process.env.REST_API_SYSTEM_ERROR, process.env.BASE_TEN), err))
-    .finally(() => util._sendReponse(res));
+        .then((updatedLanguage) => util._setReponse(parseInt(process.env.REST_API_OK, process.env.BASE_TEN), updatedLanguage))
+        .catch((err) => util._setReponse(parseInt(process.env.REST_API_SYSTEM_ERROR, process.env.BASE_TEN), err))
+        .finally(() => util._sendReponse(res));
 };
 
 
 exports.getById = function (req, res) {
     const languageId = req.params.languageId;
-    const response = {
-        status: parseInt(process.env.REST_API_OK, 10),
-        message: ""
-    };
-    Language.findById(languageId).exec()
+    Language.findById(languageId)
         .then((language) => {
             if (!language) {
-                response.status = parseInt(process.env.REST_API_RESOURCE_NOT_FOUND_ERROR, 10);
-                response.message = {
-                    "message": process.env.REST_API_RESOURCE_NOT_FOUND_MESSAGE
-                };
+                util._setReponse(
+                    parseInt(process.env.REST_API_RESOURCE_NOT_FOUND_ERROR, process.env.BASE_TEN),
+                    process.env.REST_API_RESOURCE_NOT_FOUND_MESSAGE
+                );
             } else {
-                response.message = language;
+                util._setReponse(parseInt(process.env.REST_API_OK, process.env.BASE_TEN), language)
             }
         })
-        .catch((err) => {
-            response.status = parseInt(process.env.REST_API_SYSTEM_ERROR, 10);
-            response.message = err;
-        })
-        .finally(() => {
-            res.status(response.status).json(response.message);
-        });
+        .catch(err => util._setReponse(parseInt(process.env.REST_API_SYSTEM_ERROR, process.env.BASE_TEN), err))
+        .finally(() => util._sendReponse(res));
 }
 
 exports.getAll = function (req, res) {
     const offset = parseInt(req.query.offset);
     const count = parseInt(req.query.count);
-    const response = {
-        status: parseInt(process.env.REST_API_OK, 10),
-        message: ""
-    };
-    Language.find().skip(offset).limit(count).exec()
-        .then((languages) => {
-            response.message = languages;
-        })
-        .catch((err) => {
-            response.status = parseInt(process.env.REST_API_SYSTEM_ERROR, 10);
-            response.message = err;
-        })
-        .finally(() => {
-            console.log(response.message);
-            res.status(response.status).json(response.message);
-        });
+    util
+        ._validatePaginationParams(req, offset, count)
+        .then(([offset, count]) => util._getLanguages(Language, offset, count))
+        .then(languages => util._setReponse(parseInt(process.env.REST_API_OK, process.env.BASE_TEN), languages))
+        .catch(err => util._setReponse(parseInt(process.env.REST_API_SYSTEM_ERROR, process.env.BASE_TEN), err))
+        .finally(() => util._sendReponse(res));
 }
 
 exports.deleteById = function (req, res) {
     const languageId = req.params.languageId;
-    const response = {
-        status: parseInt(process.env.REST_API_OK, 10),
-        message: ""
-    };
-    Language.findByIdAndDelete(languageId).exec()
+    Language.findByIdAndDelete(languageId)
         .then((deletedLanguage) => {
             if (!deletedLanguage) {
-                response.status = parseInt(process.env.REST_API_RESOURCE_NOT_FOUND_ERROR, 10);
-                response.message = {
-                    "message": process.env.REST_API_RESOURCE_NOT_FOUND_MESSAGE
-                };
+                util._setReponse(
+                    parseInt(process.env.REST_API_RESOURCE_NOT_FOUND_ERROR, process.env.BASE_TEN),
+                    process.env.REST_API_RESOURCE_NOT_FOUND_MESSAGE
+                );
             } else {
-                response.message = deletedLanguage;
+                util._setReponse(parseInt(process.env.REST_API_OK, process.env.BASE_TEN), deletedLanguage)
             }
         })
-        .catch((err) => {
-            response.status = parseInt(process.env.REST_API_SYSTEM_ERROR, 10);
-            response.message = err;
-        })
-        .finally(() => {
-            res.status(response.status).json(response.message);
-        })
+        .catch(err => util._setReponse(parseInt(process.env.REST_API_SYSTEM_ERROR, process.env.BASE_TEN), err))
+        .finally(() => util._sendReponse(res));
 };
 
 exports.getLanguageDocumentSize = function (req, res) {
