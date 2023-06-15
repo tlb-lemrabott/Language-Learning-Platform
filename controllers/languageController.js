@@ -1,30 +1,29 @@
 const mongoose = require('mongoose');
 const Language = mongoose.model(process.env.LAGUAGE_MODEL);
+const util = require('./util');
 
-
-module.exports.addOne = (req, res) =>{
-    const newLanguage = {
+exports.addOne = (req, res) => {
+    const language = {
         name: req.body.name,
         countries: req.body.countries,
         books: req.body.books
     };
-    Language.create(newLanguage, function(err, language){
-        if(err){
-            res.status(500).send({
-                success: false,
-                message: `error while adding new language, Error: ${err}`
-            });
-        }
-        else {
-            res.status(200).send({
-                success: true,
-                response : language
-            });
-        }
-    });
-}
+    util._validateLanguage(Language, language)
+        .then(validatedLanguage => Language.create(validatedLanguage))
+        .then(createdLanguage => util._setReponse(parseInt(process.env.REST_API_OK, process.env.BASE_TEN), createdLanguage))
+        .catch(err => util._setReponse(parseInt(process.env.REST_API_SYSTEM_ERROR, process.env.BASE_TEN), err))
+        .finally(() => util._sendReponse(res))
+};
 
 
+exports.fullUpdate = function (req, res) {
+    const languageId = req.params.languageId;
+    const newLanguage = req.body;
+    Language.findOneAndReplace({ _id: languageId }, newLanguage, { new: true, overwrite: true })
+        .then((updatedLanguage) => util._setReponse(parseInt(process.env.REST_API_OK, process.env.BASE_TEN), updatedLanguage))
+        .catch((err) => util._setReponse(parseInt(process.env.REST_API_SYSTEM_ERROR, process.env.BASE_TEN), err))
+        .finally(() => util._sendReponse(res));
+};
 
 exports.partialUpdate = function (req, res) {
     const languageId = req.params.languageId;
@@ -35,75 +34,86 @@ exports.partialUpdate = function (req, res) {
     .finally(() => util._sendReponse(res));
 };
 
-    if(name === null) {
-        name = languageName;
-    }
 
-    Language.findOneAndUpdate(
-        { name: languageName }, 
-        { name: name, $push: { countries: countries } },
-        { new: true },
-        function(err, language){
-        if(err){
-            res.status(500).send({
-                success: false,
-                message: `Error while updating language, Error: ${err}`
-            });
-        } else {
-            res.status(200).send({
-                success: true,
-                response: language
-            });
-        }
-    });
-}
-
-
-module.exports.getByName = (req, res) =>{
-    const languageName = req.params.languageName;
-    Language.findOne({name: languageName}).exec(function(err, language){
-        if(err){
-            res.status(500).send({
-                success: false,
-                message: `error while getting language ${languageName}, Error: ${err}`
-            });
-        }
-        res.status(200).send({
-            success: true,
-            response: language
+exports.getById = function (req, res) {
+    const languageId = req.params.languageId;
+    const response = {
+        status: parseInt(process.env.REST_API_OK, 10),
+        message: ""
+    };
+    Language.findById(languageId).exec()
+        .then((language) => {
+            if (!language) {
+                response.status = parseInt(process.env.REST_API_RESOURCE_NOT_FOUND_ERROR, 10);
+                response.message = {
+                    "message": process.env.REST_API_RESOURCE_NOT_FOUND_MESSAGE
+                };
+            } else {
+                response.message = language;
+            }
+        })
+        .catch((err) => {
+            response.status = parseInt(process.env.REST_API_SYSTEM_ERROR, 10);
+            response.message = err;
+        })
+        .finally(() => {
+            res.status(response.status).json(response.message);
         });
-    });
 }
 
-
-module.exports.getAll = (req, res) =>{
-    Language.find().exec(function(err, languages){
-        if(err){
-            res.status(500).send({
-                success: false,
-                message: `error while getting list of languages, Error: ${err}`
-            });
-        }
-        res.status(200).send({
-            success: true,
-            response: languages
+exports.getAll = function (req, res) {
+    const offset = parseInt(req.query.offset);
+    const count = parseInt(req.query.count);
+    const response = {
+        status: parseInt(process.env.REST_API_OK, 10),
+        message: ""
+    };
+    Language.find().skip(offset).limit(count).exec()
+        .then((languages) => {
+            response.message = languages;
+        })
+        .catch((err) => {
+            response.status = parseInt(process.env.REST_API_SYSTEM_ERROR, 10);
+            response.message = err;
+        })
+        .finally(() => {
+            console.log(response.message);
+            res.status(response.status).json(response.message);
         });
-    });
 }
 
+exports.deleteById = function (req, res) {
+    const languageId = req.params.languageId;
+    const response = {
+        status: parseInt(process.env.REST_API_OK, 10),
+        message: ""
+    };
+    Language.findByIdAndDelete(languageId).exec()
+        .then((deletedLanguage) => {
+            if (!deletedLanguage) {
+                response.status = parseInt(process.env.REST_API_RESOURCE_NOT_FOUND_ERROR, 10);
+                response.message = {
+                    "message": process.env.REST_API_RESOURCE_NOT_FOUND_MESSAGE
+                };
+            } else {
+                response.message = deletedLanguage;
+            }
+        })
+        .catch((err) => {
+            response.status = parseInt(process.env.REST_API_SYSTEM_ERROR, 10);
+            response.message = err;
+        })
+        .finally(() => {
+            res.status(response.status).json(response.message);
+        })
+};
 
-module.exports.delete = (req, res) =>{
-    const languageName = req.params.languageName;
-    Language.deleteOne({name: languageName}).exec(function(err, acknowledged){
-        if(err){
-            res.status(500).send({
-                success: false,
-                response: `error while deleting language ${languageName}, Error: ${err}`
-            });
-        }
-        res.status(200).send({
-            success: true,
-            message: acknowledged
+exports.getLanguageDocumentSize = function (req, res) {
+    Language.countDocuments().then(
+        (sizeValue) => {
+            res.status(200).send(sizeValue)
+        })
+        .catch((err) => {
+            "Error:", err
         });
-    });
-}
+};
