@@ -26,9 +26,14 @@ module.exports.addOne = (req, res) =>{
 
 
 
-module.exports.update = (req, res) =>{
-    const languageName = req.params.languageName;
-    let {name, countries} = req.body;
+exports.partialUpdate = function (req, res) {
+    const languageId = req.params.languageId;
+    const newLanguage = req.body;
+    Language.findByIdAndUpdate(languageId, newLanguage, { new: true })
+    .then((updatedLanguage) => util._setReponse(parseInt(process.env.REST_API_OK, process.env.BASE_TEN), updatedLanguage))
+    .catch((err) => util._setReponse(parseInt(process.env.REST_API_SYSTEM_ERROR, process.env.BASE_TEN), err))
+    .finally(() => util._sendReponse(res));
+};
 
     if(name === null) {
         name = languageName;
