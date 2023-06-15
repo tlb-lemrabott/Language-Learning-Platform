@@ -50,6 +50,12 @@ exports._getLanguageById = function (docSchema, languageId, offset, count) {
         .limit(count)
 }
 
+exports._getLanguages = function (docSchema, offset, count) {
+    return docSchema.find()
+        .skip(offset)
+        .limit(count)
+}
+
 exports._checkLanguageExistence = function (docSchema, languageId) {
     return docSchema.findById(languageId)
         .then((language) => {
