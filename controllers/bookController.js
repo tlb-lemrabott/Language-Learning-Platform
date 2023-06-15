@@ -18,22 +18,15 @@ exports.addOne = (req, res) => {
 
 exports.update = function (req, res) {
     const languageId = req.params.languageId;
-    const bookId = req.params.bookId;
-    const newBook = req.body; 
-    util._checkLanguageExistence(Language, languageId)
-        .then((language) => util._checkBookExistence(language, bookId))
-        .then((foundedBook) => util._updateBookOfLanguage())
-        .then((updatedBook) => util._setReponse(parseInt(process.env.REST_API_OK, process.env.BASE_TEN), updatedBook))
-        .catch((err) => {
-            if (err.message === process.env.MSG_LANGUAGE_NOT_FOUND || err.message === process.env.MSG_BOOK_NOT_FOUND) {
-                util._setReponse(parseInt(process.env.REST_API_RESOURCE_NOT_FOUND_ERROR, process.env.BASE_TEN), err.message);
-            } else {
-                util._setReponse(parseInt(process.env.REST_API_SYSTEM_ERROR, process.env.BASE_TEN), err);
-            }
-        })
-        .finally(() => {
-            util._sendReponse(res);
-        });
+    const newBook = {
+        title: req.body.title,
+        author: req.body.author,
+        price: req.body.price
+    }
+    Language.findByIdAndUpdate(languageId, newBook, { new: true })
+        .then((updatedLanguage) => util._setReponse(parseInt(process.env.REST_API_OK, process.env.BASE_TEN), updatedLanguage))
+        .catch((err) => util._setReponse(parseInt(process.env.REST_API_SYSTEM_ERROR, process.env.BASE_TEN), err))
+        .finally(() => util._sendReponse(res));
 };
 
 exports.getById = function (req, res) {
