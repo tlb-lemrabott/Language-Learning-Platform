@@ -25,7 +25,7 @@ exports._validateLanguage = function (docSchema, language) {
                     const errorMessage = error.errors.name.message;
                     reject(errorMessage);
                 } else if (error.name === process.env.MONGO_ERR && error.code === parseInt(process.env.MONGO_ERROR_CODE, process.env.BASE_TEN)) {
-                    const duplicateErrorMessage = process.env.MONGOOSE_DUPLICATE_ERROR_MSG;
+                    const duplicateErrorMessage = process.env.MONGOOSE_DUPLICATE_LANG_NAME_ERROR;
                     reject(duplicateErrorMessage);
                 } else {
                     reject(process.env.MONGODB_VALIDATION_ERROR);
@@ -33,6 +33,39 @@ exports._validateLanguage = function (docSchema, language) {
             });
     });
 };
+
+exports._validateUser = function (docSchema, newUser) {
+    return new Promise((resolve, reject) => {
+        const user = new docSchema(newUser);
+        user.validate()
+            .then(() => resolve(user))
+            .catch((error) => {
+                if (error.name === process.env.MONGOOSE_INPUT_VALIDATION_ERROR) {
+                    console.log("1: ", error.errors.username);
+                    const errorMessage = error.errors.username.message;
+                    reject(errorMessage);
+                } else if (error.name === process.env.MONGO_ERR && error.code === parseInt(process.env.MONGO_ERROR_CODE, process.env.BASE_TEN)) {
+                    const duplicateErrorMessage = process.env.MONGOOSE_DUPLICATE_USER_NAME_ERROR;
+                    reject(duplicateErrorMessage);
+                } else {
+                    reject(process.env.MONGODB_VALIDATION_ERROR);
+                }
+            });
+    });
+};
+
+exports._fillNewUser= function(docSchema, req, passwordHashed) {
+    const newUser = new docSchema({
+        name: req.body.name,
+        username: req.body.username,
+        password: passwordHashed
+    });
+    return newUser;
+}
+
+exports._createUser= function(docSchema, newUser) {
+    return docSchema.create(newUser);
+}
 
 exports._addBookToLanguage = function (language, newBook) {
     language.books.push(newBook);
@@ -131,4 +164,15 @@ exports._validatePaginationParams = function (req, offset, count) {
         }
         resolve([defaultOffset, defaultCount]);
     });
+}
+
+exports._checkUserExistence= function(user) {
+    if (!user) {
+        util._setReponse(
+            parseInt(process.env.REST_API_RESOURCE_NOT_FOUND_ERROR, process.env.BASE_TEN),
+            process.env.REST_API_USER_NOT_FOUND_MESSAGE
+        );
+        throw new Error(process.env.REST_API_USER_NOT_FOUND_MESSAGE);
+    }
+    return user;
 }
