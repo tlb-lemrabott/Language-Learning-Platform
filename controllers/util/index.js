@@ -176,3 +176,32 @@ exports._checkUserExistence= function(user) {
     }
     return user;
 }
+
+exports._updateOne = function (languageBook, newBook) {
+    console.log("_updateOne", languageBook, newBook);
+    languageBook.foundBook.set(newBook);
+    return languageBook.language.save();
+}
+
+exports._isLanguageFound = function (language) {
+    return new Promise((resolve, reject) => {
+        if (language) {
+            resolve(language);
+        } else {
+            console.log("language not found");
+            reject(process.env.MSG_LANGUAGE_NOT_FOUND);
+        }
+    });
+}
+
+exports._isBookFound = function (language, bookId) {
+    console.log("_isBookFound");
+    return new Promise((resolve, reject) => {
+        const foundBook = language.books.find((book) => book._id.toString() == bookId);
+        if (!foundBook) {
+            console.log(process.env.MSG_BOOK_NOT_FOUND);
+            reject(process.env.MSG_BOOK_NOT_FOUND);
+        }
+        resolve({ foundBook, language });
+    });
+};
