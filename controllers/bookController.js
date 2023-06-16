@@ -58,7 +58,7 @@ exports.getAll = function (req, res) {
         .then((books) => util._setReponse(parseInt(process.env.REST_API_OK, process.env.BASE_TEN), books))
         .catch((err) => util._setReponse(parseInt(process.env.REST_API_SYSTEM_ERROR, process.env.BASE_TEN), err))
         .finally(() => util._sendReponse(res)); 
-}
+};
 
 exports.delete = function (req, res) {
     const languageId = req.params.languageId;
