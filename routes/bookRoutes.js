@@ -10,7 +10,8 @@ bookRoutes.route('')
 
 bookRoutes.route('/:bookId')
     .get(bookController.getById)
-    .patch(bookController.update)
+    .put(bookController.fullUpdate)
+    .patch(bookController.partialUpdate)
     .put(bookController.delete);
 
 
