@@ -33,7 +33,6 @@ exports.partialUpdate = function (req, res) {
         .finally(() => util._sendReponse(res));
 };
 
-
 exports.getById = function (req, res) {
     const languageId = req.params.languageId;
     Language.findById(languageId)
