@@ -1,0 +1,14 @@
+<br />
+<div class="card" style="width: 28rem; width:800px; margin:0 auto;">
+    
+    <div class="card-body">
+        <h5 class="card-title">Language Learning Platform</h5>
+        <p class="card-text">Choose language you want to learn</p>
+      </div>
+    <ul class="list-group">
+        <li *ngFor="let language of languages" class="list-group-item">
+            <a routerLink="/languages/{{language._id}}">{{language.name}}</a>
+        </li>
+    </ul>
+</div>
+<br />
