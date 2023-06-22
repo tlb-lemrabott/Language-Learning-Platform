@@ -1,0 +1,183 @@
+[
+    {
+        "name": "Arabic Language Learning",
+        "countries": [
+            "Mauritania",
+            "Saudi Arabia",
+            "Egypt",
+            "United Arab Emirates"
+        ],
+        "books": [
+            {
+                "title": "كتاب تعلم اللغة العربية للمبتدئين",
+                "author": "أحمد الغامدي",
+                "price": 19.99
+            },
+            {
+                "title": "العربية بين يديك: الكتاب المبسّط",
+                "author": "محمد عبد الوهاب",
+                "price": 15.99
+            },
+            {
+                "title": "اللغة العربية خطوة بخطوة",
+                "author": "عائشة السلطان",
+                "price": 12.99
+            },
+            {
+                "title": "كتاب تعلم القواعد العربية",
+                "author": "خالد القرشي",
+                "price": 9.99
+            },
+            {
+                "title": "قواعد اللغة العربية المبسطة",
+                "author": "عبد الله الجمعة",
+                "price": 14.99
+            },
+            {
+                "title": "كتاب تعلم اللغة العربية للناطقين بغيرها",
+                "author": "فاطمة العتيبي",
+                "price": 11.99
+            },
+            {
+                "title": "من الصفر إلى الإتقان: اللغة العربية",
+                "author": "محمد صلاح الدين الشامي",
+                "price": 10.49
+            },
+            {
+                "title": "تعلم العربية بسهولة ويسر",
+                "author": "سارة السعود",
+                "price": 9.99
+            },
+            {
+                "title": "كتاب تعلم اللغة العربية للأطفال",
+                "author": "ليلى العمري",
+                "price": 8.99
+            },
+            {
+                "title": "العربية في 30 يومًا",
+                "author": "ياسر الشبل",
+                "price": 10.99
+            }
+        ]
+    },
+    {
+        "name": "English Language Learning",
+        "countries": [
+            "United States",
+            "United Kingdom",
+            "Canada"
+        ],
+        "books": [
+            {
+                "title": "English Grammar in Use",
+                "author": "Raymond Murphy",
+                "price": 24.99
+            },
+            {
+                "title": "The Oxford English Grammar",
+                "author": "Sidney Greenbaum",
+                "price": 29.99
+            },
+            {
+                "title": "English Vocabulary in Use",
+                "author": "Michael McCarthy",
+                "price": 19.99
+            },
+            {
+                "title": "Essential Grammar in Use",
+                "author": "Raymond Murphy",
+                "price": 22.99
+            },
+            {
+                "title": "English Idioms in Use",
+                "author": "Felicity O'Dell",
+                "price": 17.99
+            },
+            {
+                "title": "The Elements of Style",
+                "author": "William Strunk Jr. and E.B. White",
+                "price": 14.99
+            },
+            {
+                "title": "English Pronunciation in Use",
+                "author": "Mark Hancock",
+                "price": 21.99
+            },
+            {
+                "title": "English for Everyone: Course Book Level 1",
+                "author": "DK",
+                "price": 26.99
+            },
+            {
+                "title": "Practice Makes Perfect: English Conversation",
+                "author": "Jean Yates",
+                "price": 16.99
+            },
+            {
+                "title": "English Made Easy: Volume One",
+                "author": "Jonathan Crichton and Pieter Koster",
+                "price": 18.99
+            }
+        ]
+    },
+    {
+        "name": "French Language Learning",
+        "countries": [
+            "France",
+            "Canada",
+            "Belgium"
+        ],
+        "books": [
+            {
+                "title": "French Grammar: A Complete Reference Guide",
+                "author": "Daniel Calvez",
+                "price": 24.99
+            },
+            {
+                "title": "Easy French Step-by-Step",
+                "author": "Myrna Bell Rochester",
+                "price": 19.99
+            },
+            {
+                "title": "French Vocabulary Builder: Grammar and Vocabulary Workbook",
+                "author": "Gillian Mastrangelo",
+                "price": 17.99
+            },
+            {
+                "title": "Practice Makes Perfect: Complete French Grammar",
+                "author": "Annie Heminway",
+                "price": 21.99
+            },
+            {
+                "title": "Fluent in French: The most complete study guide to learn French",
+                "author": "Frederic Bibard",
+                "price": 29.99
+            },
+            {
+                "title": "French Short Stories for Beginners: 20 Captivating Short Stories",
+                "author": "Lingo Mastery",
+                "price": 14.99
+            },
+            {
+                "title": "French Conversation Made Natural: Engaging Dialogues to Learn French",
+                "author": "The Language Academy",
+                "price": 16.99
+            },
+            {
+                "title": "French for Dummies",
+                "author": "Erotopoulos, Dodi-Katrin Schmidt, Michelle M. Williams",
+                "price": 22.99
+            },
+            {
+                "title": "French All-in-One for Dummies",
+                "author": "Consumer Dummies",
+                "price": 26.99
+            },
+            {
+                "title": "French Made Simple: Learn to Speak and Understand French Quickly and Easily",
+                "author": "Pamela Rose Haze",
+                "price": 18.99
+            }
+        ]
+    }
+]

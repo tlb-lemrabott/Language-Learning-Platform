@@ -1,0 +1,62 @@
+<div class="container">
+  <h3>Welcome to {{ language.name }} as language</h3>
+
+  <div class="row">
+    <div class="col-md-6">
+      <table class="table">
+        <tbody>
+          <tr>
+            <th>Name:</th>
+            <td><b>{{ language.name }}</b></td>
+          </tr>
+          <tr>
+            <th>Countries:</th>
+            <td>
+              <ul class="list-unstyled">
+                <li *ngFor="let country of language.countries" class="country-item">
+                  <i class="fas fa-globe"></i> {{ country }}
+                </li>
+              </ul>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <h4>Books that taught this language:</h4>
+  <div class="row">
+    <div class="col-md-6">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Price</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let book of languageBooksService.books">
+            <td>{{ book.title }}</td>
+            <td>{{ book.author }}</td>
+            <td>{{ book.price | currency }}</td>
+            <td>
+              <button class="btn btn-danger" (click)="deleteBook(book)">Delete</button>
+              <button class="btn btn-primary" (click)="updateBook(book)">Update</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <button class="btn btn-success" (click)="addNewBook()">Add New Book</button>
+      <button class="btn btn-dark" (click)="addNewCountry()">Add New Country</button>
+    </div>
+  </div>
+    <div class="input-group mb-2">
+      <div class="input-group-prepend">
+          <div class="input-group-text">Name</div>
+      </div>
+      <input type="text" id="name" placeholder="Language name" formControlName="name" class="form-control">
+
+  </div>
+</div>

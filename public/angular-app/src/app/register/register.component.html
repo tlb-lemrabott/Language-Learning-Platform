@@ -1,0 +1,49 @@
+<br />
+<div class="d-flex justify-content-center align-items-center h-100">
+    <div class="card shadow-lg border-0 rounded-3" style="width: 28rem; height: 35rem;">
+      <div class="card-body text-center" style="background-color: rgb(210, 236, 248);">
+        <img src="../../assets/images/login.png" width="20%" class="mx-auto d-block mt-4 mb-4">
+        <br />
+        <h4 class="card-title mb-4">Registration Form</h4>
+
+<div class="form">
+    <form [formGroup]="reactiveForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="name"><i class="fas fa-user"></i>Name</label>
+            <input type="text" id="name" formControlName="name" class="form-control" />
+            <div
+                *ngIf="reactiveForm.get('name')?.invalid && (reactiveForm.get('name')?.dirty || reactiveForm.get('name')?.touched)">
+                <small class="text-danger">Name is required</small>
+            </div>
+        </div>
+
+        <div class="form-group">
+            
+            <label for="username"><i class="fas fa-user"></i> Username</label>
+            <input type="text" id="username" formControlName="username" class="form-control">
+            <div
+                *ngIf="reactiveForm.get('username')?.invalid && (reactiveForm.get('username')?.dirty || reactiveForm.get('username')?.touched)">
+                <small class="text-danger">Username is required</small>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="password"><i class="fas fa-lock"></i>Password</label>
+            <input type="text" id="password" formControlName="password" class="form-control">
+            <div
+                *ngIf="reactiveForm.get('password')?.invalid && (reactiveForm.get('password')?.dirty || reactiveForm.get('password')?.touched)">
+                <small class="text-danger">Password is required</small>
+            </div>
+        </div>
+
+
+        <br />
+        <button class="btn btn-primary" id="btn" [disabled]="reactiveForm.invalid">
+            <i class="fas fa-sign-in-alt"></i>Register
+        </button>
+    </form>
+</div>
+
+</div>
+</div>
+</div>

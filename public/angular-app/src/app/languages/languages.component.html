@@ -1,0 +1,63 @@
+<div class="card" style="width: 28rem; width: 800px; margin: 0 auto;">
+    <div class="card-body">
+      <h5 class="card-title">List of Languages</h5>
+      <p class="card-text" *ngIf="authorized">
+        Choose the language you want to learn
+      </p>
+      <div *ngIf="authorized">
+        <select name="selected" (change)="onSelectChange($event.target)">
+          <option value="default">Choose</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="15">15</option>
+        </select>
+      </div>
+      <p class="card-text" *ngIf="!authorized" style="color: red;">Please login to show the list !</p>
+  
+      <ul class="list-group">
+        <li *ngFor="let language of languages" class="list-group-item">
+          <div style="display: flex; justify-content: space-between;">
+            <a routerLink="/languages/{{language._id}}">{{language.name}}</a>
+            <div>
+            <button class="btn btn-success" (click)="showLanguageForm()">Add</button>
+              <button class="btn btn-primary" (click)="showUpdateLanguageForm(language._id)">Update</button>
+              <button class="btn btn-danger" (click)="deleteLanguage(language)">Delete</button>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  
+    <div class="card-footer" *ngIf="authorized">
+      <div class="pagination">
+        <button class="btn btn-primary" (click)="previousPage()" [disabled]="previousDisenable">Previous</button>
+        <div style="flex-grow: 1;"></div>
+        <button class="btn btn-primary" (click)="nextPage()" [disabled]="nextDisenable">Next</button>
+      </div>
+    </div>
+  </div>
+
+<br />
+  <div *ngIf="showForm" style="width: 28rem; width: 800px; margin: 0 auto;">
+    <app-languages-form></app-languages-form>
+  </div>
+  <div *ngIf="showUpdateForm" style="width: 28rem; width: 800px; margin: 0 auto;">
+    <app-languages-form></app-languages-form>
+  </div>
+  
+
+  <div class="popup-overlay" *ngIf="showPopup"></div>
+  <div class="popup" *ngIf="showPopup">
+    <div class="popup-content">
+      <div class="popup-message">
+        <h5 class="popup-title">Authorization Error</h5>
+        <ul>
+          <li *ngFor="let error of loginError" style="color: red;">{{ error }}</li>
+        </ul>
+      </div>
+      <div class="popup-close">
+        <button class="btn btn-secondary" (click)="closePopup()">Close</button>
+      </div>
+    </div>
+  </div>
+  

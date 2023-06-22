@@ -1,0 +1,49 @@
+<br />
+<div class="d-flex justify-content-center align-items-center h-100">
+  <div class="card shadow-lg border-0 rounded-3" style="width: 28rem; height: 35rem;">
+    <div class="card-body text-center" style="background-color: rgb(210, 236, 248);">
+      <img src="../../assets/images/login.png" width="20%" class="mx-auto d-block mt-4 mb-4">
+      <h2 class="card-title mb-4"></h2>
+      <form [formGroup]="reactiveForm" (ngSubmit)="onSubmit()">
+        <div class="form-group mb-3">
+          <label for="username" class="form-label">
+            <i class="fas fa-user"></i> Username
+          </label>
+          <input type="text" id="username" formControlName="username" class="form-control">
+          <div *ngIf="reactiveForm.get('username')?.invalid && (reactiveForm.get('username')?.dirty || reactiveForm.get('username')?.touched)"
+            class="text-danger">Username is required
+          </div>
+        </div>
+        <div class="form-group mb-3">
+          <label for="password" class="form-label">
+            <i class="fas fa-lock"></i> Password
+          </label>
+          <input type="password" id="password" formControlName="password" class="form-control">
+          <div *ngIf="reactiveForm.get('password')?.invalid && (reactiveForm.get('password')?.dirty || reactiveForm.get('password')?.touched)"
+            class="text-danger">Password is required
+          </div>
+        </div>
+        <div class="text-center">
+          <button class="btn btn-primary" id="btn" [disabled]="reactiveForm.invalid">
+            Login
+            <i class="fas fa-sign-in-alt"></i>
+          </button>
+        </div>
+      </form>
+      <div class="popup-overlay"></div>
+      <div *ngIf="showPopup" class="popup">
+        <div class="popup-content">
+          <div class="popup-message">
+            <h5 class="popup-title">Authentication Error</h5>
+            <ul>
+              <li *ngFor="let error of loginError" style="color: red;">{{ error }}</li>
+            </ul>
+          </div>
+          <div class="popup-close">
+            <button class="btn btn-secondary" (click)="closePopup()">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
