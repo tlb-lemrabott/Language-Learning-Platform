@@ -72,11 +72,12 @@ exports._addBookToLanguage = function (language, newBook) {
     return language.save();
 };
 
-exports._getBooksInLanguage = function (languages) {
+exports._getBooksInLanguage = function (language, offset, count) {
     return new Promise((resolve, reject) => {
-        resolve(languages.books);
+        const books = language.books.slice(offset, offset + count);
+        resolve(books);
     });
-}
+};
 
 exports._getLanguageById = function (docSchema, languageId, offset, count) {
     return docSchema.findById(languageId)
@@ -163,7 +164,9 @@ exports._validatePaginationParams = function (req, offset, count) {
             return;
         }
         resolve([defaultOffset, defaultCount]);
+        console.log("offset, count", defaultOffset, defaultCount);
     });
+    
 }
 
 exports._checkUserExistence= function(user) {

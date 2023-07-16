@@ -66,7 +66,7 @@ exports.getAll = function (req, res) {
     bookUtil
         ._validatePaginationParams(req, offset, count)
         .then(([offset, count]) => bookUtil._getLanguageById(Language, languageId, offset, count))
-        .then((language) => bookUtil._getBooksInLanguage(language))
+        .then((language) => bookUtil._getBooksInLanguage(language, offset, count))
         .then((books) => bookUtil._setReponse(parseInt(process.env.REST_API_OK, process.env.BASE_TEN), books))
         .catch((err) => bookUtil._setReponse(parseInt(process.env.REST_API_SYSTEM_ERROR, process.env.BASE_TEN), err))
         .finally(() => bookUtil._sendReponse(res));

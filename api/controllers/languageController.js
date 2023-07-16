@@ -59,6 +59,7 @@ exports.getAll = function (req, res) {
 
 exports.deleteById = function (req, res) {
     const languageId = req.params.languageId;
+    console.log("deleteById called with _id: " + languageId);
     Language.findByIdAndDelete(languageId)
         .then((language) => languageUtil._isLanguageFound(language))
         .then((deletedLanguage) => languageUtil._setReponse(parseInt(process.env.REST_API_OK, process.env.BASE_TEN), deletedLanguage))
