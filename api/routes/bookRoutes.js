@@ -12,7 +12,7 @@ bookRoutes.route('/:bookId')
     .get(bookController.getById)
     .put(bookController.fullUpdate)
     .patch(bookController.partialUpdate)
-    .put(bookController.delete);
+    .delete(bookController.delete);
 
 
 module.exports = bookRoutes;
