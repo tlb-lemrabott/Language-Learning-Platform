@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LanguageService } from '../language.service';
 import { Location } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 
 export class Language{
   #_id!: string;
@@ -49,7 +50,12 @@ export class LanguagesComponent implements OnInit{
   listSize!: number;
   selectedOption!: number;
 
-  constructor(private languageService: LanguageService, private location: Location){}
+  constructor(
+    private languageService: LanguageService, 
+    private location: Location, 
+    private router: Router,
+    private route: ActivatedRoute
+  ){}
 
   ngOnInit(): void {
     this.getAll();
@@ -115,27 +121,71 @@ export class LanguagesComponent implements OnInit{
     this.showPopup = false;
   }
 
-  updateLanguage(language: any){
-
-  }
-
-  deleteLanguage(language: any){
-
-  }
-
   showLanguageForm() {
     this.showForm = true;
+    this.showUpdateForm = false;
+      console.log("adding id to url");
+      
+      if (this.showForm) {
+        console.log("adding id to url");
+        const currentUrl = this.location.path();
+        const updatedUrl = currentUrl.match(/\/languages\/.*$/) ? currentUrl.replace(/\/[^/]*$/, "") : currentUrl;
+        this.location.go(updatedUrl);
+      }
+      
+    
   }
 
   showUpdateLanguageForm(id:string){
-    this.addIdToCurrentUrl(id);
+   this.addIdToCurrentUrl(id);
     this.showUpdateForm = true;
+    this.showForm = false;
+  }
+
+  deleteLanguage(id:string){
+    this.addIdToCurrentUrl(id);
+    this._deleteOne();
+    //this.router.navigate(['/languages']);
   }
 
   addIdToCurrentUrl(id: string) {
-    const currentUrl = this.location.path();
-    const updatedUrl = `${currentUrl}/${id}`;
-    this.location.go(updatedUrl);
+      const currentUrl = this.location.path();
+      const updatedUrl = `${currentUrl}/${id}`;
+      this.location.go(updatedUrl);
   }
+
+  _deleteOne() {
+    this.route.params.subscribe(() => {
+      const currentUrl = this.location.path();
+      const urlParts = currentUrl.split('/');
+      const languageId = urlParts[2];
+      console.log("languageId = " + languageId);
+      if (languageId) {
+        this.languageService.deleteOne(languageId).subscribe({
+          next: (data: any) => {
+            this.removeIdFromUrl();
+
+            this.getAll();
+          console.log("navigate");
+    //  this.router.navigate(['/languages'])
+            console.log("deleted Data = " + data);
+          },
+          error: (err) => {
+            console.log(err);
+          }
+        })
+
+      } else {
+        console.log('No parameter found in the URL.');
+      }
+    });
+  }
+
+  removeIdFromUrl() {
+    const currentUrl = this.location.path();
+    const updatedUrl = currentUrl.replace(/\/\w+$/, '');
+    this.location.replaceState(updatedUrl);
+  }
+
 
 }

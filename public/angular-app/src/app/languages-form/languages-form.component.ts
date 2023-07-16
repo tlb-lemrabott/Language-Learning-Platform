@@ -15,13 +15,20 @@ export class LanguagesFormComponent implements OnInit {
   language!: Language;
   countries!: string[];
   onUpdate: boolean = false;
-  constructor(private languageService: LanguageService, private formBuilder: FormBuilder, private route: ActivatedRoute, private location: Location) {
+  constructor(
+    private languageService: LanguageService, 
+    private formBuilder: FormBuilder, 
+    private route: ActivatedRoute, 
+    private location: Location
+    ){
     //this.languageService = new Language("", "", [], books: {title: "", author: "", price: 0,});
   }
 
   reactiveForm!: FormGroup;
 
   ngOnInit(): void {
+    console.log("new instance");
+    
     this.reactiveForm = this.formBuilder.group({
       name: ['', Validators.required],
       countries: [''],
@@ -83,13 +90,15 @@ export class LanguagesFormComponent implements OnInit {
 
   onSubmit() {
     if(this.onUpdate){
-      this.submitUpdate();
+      this._submitUpdate();
     }else{
-      this.submitAddOne();
+      this._submitAddOne();
     }
+
+    this.onUpdate = false;
   }
 
-  submitAddOne(){
+  _submitAddOne(){
     if (this.reactiveForm.valid) {
       this.transformString();
       this.filledLanguage();
@@ -104,7 +113,7 @@ export class LanguagesFormComponent implements OnInit {
     }
   }
 
-  submitUpdate(){
+  _submitUpdate(){
     const currentUrl = this.location.path();
     const urlParts = currentUrl.split('/');
     const firstParam = urlParts[2];
@@ -125,9 +134,11 @@ export class LanguagesFormComponent implements OnInit {
   }
 
   transformString(): void {
-    console.log("typeof",this.reactiveForm.value.countries);
     this.countries = this.reactiveForm.value.countries.toString()
     .split(',').map((country: string) => country.trim());
   }
+
+
+  
 
 }

@@ -42,21 +42,32 @@
             <td>{{ book.author }}</td>
             <td>{{ book.price | currency }}</td>
             <td>
-              <button class="btn btn-danger" (click)="deleteBook(book)">Delete</button>
-              <button class="btn btn-primary" (click)="updateBook(book)">Update</button>
+              <div class="d-flex">
+                <button class="btn btn-danger mr-2" (click)="deleteBook(book._id)">Delete</button>
+                <button class="btn btn-primary" (click)="showBookUpdateForm(book._id)">Update</button>
+              </div>
             </td>
           </tr>
         </tbody>
       </table>
-      <button class="btn btn-success" (click)="addNewBook()">Add New Book</button>
-      <button class="btn btn-dark" (click)="addNewCountry()">Add New Country</button>
+      <div class="card-footer">
+        <div class="pagination">
+          <button class="btn btn-primary" (click)="previousPage()" [disabled]="previousDisenable">Previous</button>
+          <div style="flex-grow: 1;"></div>
+          <button class="btn btn-primary" (click)="nextPage()" [disabled]="nextDisenable">Next</button>
+        </div>
+      </div>
+      <br />
+      <button class="btn btn-success" (click)="showBookAddOneForm()">Add New Book</button>
     </div>
   </div>
-    <div class="input-group mb-2">
-      <div class="input-group-prepend">
-          <div class="input-group-text">Name</div>
-      </div>
-      <input type="text" id="name" placeholder="Language name" formControlName="name" class="form-control">
 
+  <br />
+  <div *ngIf="showForm" class="col-md-6">
+    <app-language-form></app-language-form>
   </div>
+  <div *ngIf="showFormUpdate" class="col-md-6">
+    <app-language-form></app-language-form>
+  </div>
+  
 </div>

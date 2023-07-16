@@ -26,7 +26,7 @@ export class LanguageService {
   }
 
   public getOne(id: string): Observable<Language>{
-    return this.http.get<any>(this.baseURL+`/languages/${id}`)
+    return this.http.get<Language>(this.baseURL+`/languages/${id}`)
   }
 
   public addOne(language: Language): Observable<Language>{
@@ -54,6 +54,11 @@ export class LanguageService {
   
   getTotalCount(): Observable<number> {
     return this.http.get<number>(`${this.baseURL}/languages/count/size`);
+  }
+
+
+  public deleteOne(id: string): Observable<Language>{
+    return this.http.delete<Language>(this.baseURL+`/languages/${id}`)
   }
 
 }

@@ -33,6 +33,9 @@ constructor(id: string, title: string, author: string, price: number) {
 })
 export class BooksComponent implements OnInit{
   books: Book[] = [];
+  offset: number = 0;
+  count: number = 4;
+  languageId = this.route.snapshot.params['languageId'];
   constructor(
     private bookService: BookService, 
     private route: ActivatedRoute, 
@@ -45,8 +48,8 @@ export class BooksComponent implements OnInit{
   }
 
   getAll() {
-    const languageId = this.route.snapshot.params['languageId'];
-    this.bookService.getAll(languageId);
+    
+    this.bookService.getAll(this.languageId, this.offset, this.count);
   }
 
 }

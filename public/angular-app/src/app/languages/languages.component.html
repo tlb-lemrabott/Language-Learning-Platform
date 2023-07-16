@@ -19,9 +19,8 @@
           <div style="display: flex; justify-content: space-between;">
             <a routerLink="/languages/{{language._id}}">{{language.name}}</a>
             <div>
-            <button class="btn btn-success" (click)="showLanguageForm()">Add</button>
               <button class="btn btn-primary" (click)="showUpdateLanguageForm(language._id)">Update</button>
-              <button class="btn btn-danger" (click)="deleteLanguage(language)">Delete</button>
+              <button class="btn btn-danger" (click)="deleteLanguage(language._id)">Delete</button>
             </div>
           </div>
         </li>
@@ -36,6 +35,10 @@
       </div>
     </div>
   </div>
+<br />
+  <div *ngIf="authorized" style="width: 28rem; width: 800px; margin: 0 auto;">
+    <button class="btn btn-success" (click)="showLanguageForm()">Add new language</button>
+</div>
 
 <br />
   <div *ngIf="showForm" style="width: 28rem; width: 800px; margin: 0 auto;">
